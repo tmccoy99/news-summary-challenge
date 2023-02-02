@@ -170,5 +170,4 @@ const apiExampleData = {
     ],
   },
 };
-console.log(apiExampleData.response.results);
 module.exports = apiExampleData;
