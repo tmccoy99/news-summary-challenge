@@ -8,11 +8,13 @@ const apiExampleData = require("./apiExampleData");
 
 describe("Testing display of the day's news", () => {
   let mockModel;
+  let mockClient;
   let newsView;
   beforeEach(() => {
     document.body.innerHTML = fs.readFileSync("./index.html");
-    mockModel = { getNews: jest.fn() };
-    newsView = new NewsView(mockModel);
+    mockModel = { getNews: jest.fn(), setNews: jest.fn() };
+    mockClient = { loadTodaysHeadlines: jest.fn() };
+    newsView = new NewsView(mockModel, mockClient);
   });
 
   it("With no news set in model, displayNews() adds no headlines to page", () => {
@@ -38,5 +40,27 @@ describe("Testing display of the day's news", () => {
     expect(headlines[2].textContent).toBe(
       "King Kazu’s astonishing longevity and a new move to Portugal"
     );
+  });
+
+  it("displayNewsFromApi() method loads data from API then displays headlines", () => {
+    mockClient.loadTodaysHeadlines.mockImplementationOnce((callback) =>
+      callback(apiExampleData.response.results)
+    );
+
+    mockModel.getNews.mockReturnValueOnce(apiExampleData.response.results);
+    newsView.displayNewsFromApi().then(() => {
+      const headlines = document.querySelectorAll("div.headline");
+      expect(headlines.length).toBe(10);
+      expect(headlines[1].textContent).toBe(
+        "Russia-Ukraine war live: EU to set up centre to prosecute crimes committed in Ukraine; UK rejects Johnson’s call to send fighter jets"
+      );
+      expect(headlines[2].textContent).toBe(
+        "King Kazu’s astonishing longevity and a new move to Portugal"
+      );
+      expect(mockClient.loadTodaysHeadlines).toHaveBeenCalled();
+      expect(mockModel.setNews).toHaveBeenCalledWith(
+        apiExampleData.response.results
+      );
+    });
   });
 });

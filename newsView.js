@@ -1,6 +1,7 @@
 class NewsView {
-  constructor(model) {
+  constructor(model, client) {
     this.model = model;
+    this.client = client;
   }
   displayNews() {
     const headlines = this.model.getNews();
@@ -10,6 +11,13 @@ class NewsView {
       headlineEl.textContent = headline.webTitle;
       document.querySelector("#main_container").append(headlineEl);
     }
+  }
+
+  async displayNewsFromApi() {
+    this.client.loadTodaysHeadlines((results) => {
+      this.model.setNews(results);
+      this.displayNews();
+    });
   }
 }
 module.exports = NewsView;
