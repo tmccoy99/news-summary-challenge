@@ -10,6 +10,8 @@ afterEach(() => {
 
 it("loadTodaysHeadlines() retrieves todays article data from the API", () => {
   fetch.mockResponseOnce(JSON.stringify(apiExampleData));
+  const today = new Date("2 February 2023");
+  debugger;
   client.loadTodaysHeadlines((data) => {
     expect(data.length).toBe(10);
     expect(data[1].webTitle).toBe(
@@ -19,6 +21,5 @@ it("loadTodaysHeadlines() retrieves todays article data from the API", () => {
     expect(fetch.mock.calls[0][0]).toBe(
       `https://content.guardianapis.com/search?from-date=2023-02-02&api-key=${apiKey}`
     );
-  });
-  debugger;
+  }, today);
 });
