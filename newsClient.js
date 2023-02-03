@@ -1,9 +1,12 @@
+const apiKey = require("./apiKey");
+
 class NewsClient {
-  loadTodaysHeadlines() {
-    return new Array(10).fill({
-      webTitle:
-        "Russia-Ukraine war live: EU to set up centre to prosecute crimes committed in Ukraine; UK rejects Johnson’s call to send fighter jets",
-    });
+  loadTodaysHeadlines(callback) {
+    fetch(
+      `https://content.guardianapis.com/search?from-date=2023-02-02&api-key=${apiKey}`
+    )
+      .then((response) => response.json())
+      .then((data) => callback(data.response.results));
   }
 }
 
