@@ -3,12 +3,13 @@ class NewsView {
     this.model = model;
   }
   displayNews() {
-    if (this.model.getNews().length === 0) {
-      return;
+    const headlines = this.model.getNews();
+    for (const headline of headlines) {
+      const headlineEl = document.createElement("div");
+      headlineEl.className = "headline";
+      headlineEl.textContent = headline.webTitle;
+      document.querySelector("#main_container").append(headlineEl);
     }
-    const headlineEl = document.createElement("div");
-    headlineEl.className = "headline";
-    document.querySelector("#main_container").append(headlineEl);
   }
 }
 module.exports = NewsView;

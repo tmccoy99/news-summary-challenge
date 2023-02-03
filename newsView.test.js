@@ -26,4 +26,17 @@ describe("Testing display of the day's news", () => {
     newsView.displayNews();
     expect(document.querySelector("div.headline")).not.toBeNull();
   });
+
+  it("With news set in model, displayNews() adds div.headline element with correct textContent for each headline", () => {
+    mockModel.getNews.mockReturnValueOnce(apiExampleData.response.results);
+    newsView.displayNews();
+    const headlines = document.querySelectorAll("div.headline");
+    expect(headlines.length).toBe(10);
+    expect(headlines[1].textContent).toBe(
+      "Russia-Ukraine war live: EU to set up centre to prosecute crimes committed in Ukraine; UK rejects Johnson’s call to send fighter jets"
+    );
+    expect(headlines[2].textContent).toBe(
+      "King Kazu’s astonishing longevity and a new move to Portugal"
+    );
+  });
 });
