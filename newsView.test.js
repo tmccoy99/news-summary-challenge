@@ -5,6 +5,7 @@ const fs = require("fs");
 require("jest-fetch-mock").enableMocks();
 const NewsView = require("./newsView");
 const apiExampleData = require("./apiExampleData");
+const apiExampleDataWithImages = require("./apiExampleDataWithImages");
 
 describe("Testing display of the day's news", () => {
   let mockModel;
@@ -41,6 +42,31 @@ describe("Testing display of the day's news", () => {
       "King Kazu’s astonishing longevity and a new move to Portugal"
     );
   });
+
+  it("With news set in model, displayNews() adds img element with each headline", () => {
+    mockModel.getNews.mockReturnValueOnce(
+      apiExampleDataWithImages.response.results
+    );
+    newsView.displayNews();
+    const images = document.querySelectorAll("img");
+    expect(images.length).toBe(10);
+    expect(images[0].src).toBe(
+      "https://media.guim.co.uk/a161ccf4f03c3c338a1b9378e39df35aff31d5fa/5_460_5419_3252/500.jpg"
+    );
+  });
+
+  // it("With news set in model, displayNews() headline elements are hyperlinks", () => {
+  //   mockModel.getNews.mockReturnValueOnce(
+  //     apiExampleDataWithImages.response.results
+  //   );
+  //   newsView.displayNews();
+  //   const headlines = document.querySelectorAll("div.headline");
+  //   expect(headlines.length).toBe(10);
+  //   expect(
+  //     (headlines[0].href =
+  //       "https://www.theguardian.com/football/live/2023/feb/04/everton-v-arsenal-premier-league-live-score-updates")
+  //   );
+  // });
 
   it("displayNewsFromApi() method loads data from API then displays headlines", () => {
     mockClient.loadTodaysHeadlines.mockImplementationOnce((callback) =>
