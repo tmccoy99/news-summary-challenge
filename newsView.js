@@ -7,8 +7,9 @@ class NewsView {
     const headlines = this.model.getNews();
     for (const headline of headlines) {
       const divEl = this.#generateHeadlineDiv(headline);
+      const anchorEl = this.#generateAnchor(headline);
       const imgEl = this.#generateThumbnailImg(headline);
-      document.querySelector("#main_container").append(divEl, imgEl);
+      document.querySelector("#main_container").append(divEl, anchorEl, imgEl);
     }
   }
 
@@ -30,6 +31,13 @@ class NewsView {
     const thumbnailEl = document.createElement("img");
     thumbnailEl.src = headline.fields.thumbnail;
     return thumbnailEl;
+  }
+
+  #generateAnchor(headline) {
+    const anchorEl = document.createElement("a");
+    anchorEl.href = headline.webUrl;
+    anchorEl.textContent = "View the full story here";
+    return anchorEl;
   }
 }
 module.exports = NewsView;

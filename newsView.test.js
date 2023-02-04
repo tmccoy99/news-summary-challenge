@@ -58,6 +58,19 @@ describe("Testing display of the day's news", () => {
     );
   });
 
+  it("With news set in model, displayNews() adds img element with each headline", () => {
+    mockModel.getNews.mockReturnValueOnce(
+      apiExampleDataWithImages.response.results
+    );
+    newsView.displayNews();
+    anchors = document.querySelectorAll("a");
+    expect(anchors.length).toBe(10);
+    expect(anchors[5].textContent).toBe("View the full story here");
+    expect(anchors[0].href).toBe(
+      "https://www.theguardian.com/football/live/2023/feb/04/everton-v-arsenal-premier-league-live-score-updates"
+    );
+  });
+
   it("displayNewsFromApi() method loads data from API then displays headlines", () => {
     mockClient.loadTodaysHeadlines.mockImplementationOnce((callback) =>
       callback(apiExampleDataWithImages.response.results)
