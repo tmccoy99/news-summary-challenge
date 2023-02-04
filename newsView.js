@@ -6,16 +6,13 @@ class NewsView {
   displayNews() {
     const headlines = this.model.getNews();
     for (const headline of headlines) {
-      const textEl = document.createElement("div");
-      textEl.className = "headline";
-      textEl.textContent = headline.webTitle;
+      const divEl = this.#generateHeadlineDiv(headline);
       if (headline.fields) {
-        const thumbnailEl = document.createElement("img");
-        thumbnailEl.src = headline.fields.thumbnail;
-        document.querySelector("#main_container").append(textEl, thumbnailEl);
+        const imgEl = this.#generateThumbnailImg(headline);
+        document.querySelector("#main_container").append(divEl, imgEl);
         continue;
       }
-      document.querySelector("#main_container").append(textEl);
+      document.querySelector("#main_container").append(divEl);
     }
   }
 
@@ -24,6 +21,19 @@ class NewsView {
       this.model.setNews(results);
       this.displayNews();
     });
+  }
+
+  #generateHeadlineDiv(headline) {
+    const divEl = document.createElement("div");
+    divEl.className = "headline";
+    divEl.textContent = headline.webTitle;
+    return divEl;
+  }
+
+  #generateThumbnailImg(headline) {
+    const thumbnailEl = document.createElement("img");
+    thumbnailEl.src = headline.fields.thumbnail;
+    return thumbnailEl;
   }
 }
 module.exports = NewsView;
