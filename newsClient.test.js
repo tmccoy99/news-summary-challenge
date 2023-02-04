@@ -18,7 +18,7 @@ it("loadTodaysHeadlines() retrieves todays article data from the API", () => {
     );
     expect(fetch.mock.calls.length).toBe(1);
     expect(fetch.mock.calls[0][0]).toBe(
-      `https://content.guardianapis.com/search?from-date=2023-02-02&api-key=${apiKey}`
+      `https://content.guardianapis.com/search?from-date=2023-02-02&api-key=${apiKey}&show-fields=thumbnail`
     );
   }, today);
 });

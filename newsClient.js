@@ -4,7 +4,7 @@ class NewsClient {
   loadTodaysHeadlines(callback, today = new Date()) {
     const dateString = this.#generateDateString(today);
     fetch(
-      `https://content.guardianapis.com/search?from-date=${dateString}&api-key=${apiKey}`
+      `https://content.guardianapis.com/search?from-date=${dateString}&api-key=${apiKey}&show-fields=thumbnail`
     )
       .then((response) => response.json())
       .then((data) => callback(data.response.results));
