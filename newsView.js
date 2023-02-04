@@ -7,12 +7,8 @@ class NewsView {
     const headlines = this.model.getNews();
     for (const headline of headlines) {
       const divEl = this.#generateHeadlineDiv(headline);
-      if (headline.fields) {
-        const imgEl = this.#generateThumbnailImg(headline);
-        document.querySelector("#main_container").append(divEl, imgEl);
-        continue;
-      }
-      document.querySelector("#main_container").append(divEl);
+      const imgEl = this.#generateThumbnailImg(headline);
+      document.querySelector("#main_container").append(divEl, imgEl);
     }
   }
 
